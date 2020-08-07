@@ -1,4 +1,4 @@
-package io.github.takusan23.coutdownwidgetlist
+package io.github.takusan23.countdownwidgetlist
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

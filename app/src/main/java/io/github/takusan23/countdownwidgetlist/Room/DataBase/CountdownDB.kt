@@ -1,9 +1,9 @@
-package io.github.takusan23.coutdownwidgetlist.Room.DataBase
+package io.github.takusan23.countdownwidgetlist.Room.DataBase
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import io.github.takusan23.coutdownwidgetlist.Room.Dao.CountdownDBDao
-import io.github.takusan23.coutdownwidgetlist.Room.Entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.Room.Dao.CountdownDBDao
+import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
 
 /**
  * データベース

@@ -1,4 +1,4 @@
-package io.github.takusan23.coutdownwidgetlist.Room.Entity
+package io.github.takusan23.countdownwidgetlist.Room.Entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 /**
  * カウントダウンデータベースに入れる内容
- * @param day 日付。多分UnixTimeのミリ秒なのでUnixTimeに変換するなら1000で割る
+ * @param date 日付。多分UnixTimeのミリ秒なのでUnixTimeに変換するなら1000で割る
  * @param description メモ的な何か
  * @param id 主キー
  * */

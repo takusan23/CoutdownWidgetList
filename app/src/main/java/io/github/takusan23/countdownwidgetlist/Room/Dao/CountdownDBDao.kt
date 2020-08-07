@@ -1,12 +1,12 @@
-package io.github.takusan23.coutdownwidgetlist.Room.Dao
+package io.github.takusan23.countdownwidgetlist.Room.Dao
 
 import androidx.room.*
-import io.github.takusan23.coutdownwidgetlist.Room.Entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
 
 @Dao
 interface CountdownDBDao {
     /** 全データ取得 */
-    @Query("SELECT * FROM list")
+    @Query("SELECT * FROM countdown_list")
     fun getAll(): List<CountdownDBEntity>
 
     /** データ更新 */
@@ -28,4 +28,9 @@ interface CountdownDBDao {
     /** IDを使ってデータベースから取得する */
     @Query("SELECT * FROM countdown_list WHERE _id = :id")
     fun findById(id: Int): CountdownDBEntity?
+
+    /** 未来の値のみを取り出す */
+    @Query("SELECT * FROM countdown_list WHERE date > :time")
+    fun getFutureEvent(time: Long = System.currentTimeMillis()): List<CountdownDBEntity>
+
 }

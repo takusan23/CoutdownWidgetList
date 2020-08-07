@@ -1,12 +1,14 @@
-package io.github.takusan23.coutdownwidgetlist.Widget
+package io.github.takusan23.countdownwidgetlist.Widget
 
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import io.github.takusan23.coutdownwidgetlist.Room.Entity.CountdownDBEntity
-import io.github.takusan23.coutdownwidgetlist.R
-import io.github.takusan23.coutdownwidgetlist.Room.Init.CountdownDBInit
-import io.github.takusan23.coutdownwidgetlist.Tool.toTimeFormat
+import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.R
+import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
+import io.github.takusan23.countdownwidgetlist.Tool.calcCountdownDay
+import io.github.takusan23.countdownwidgetlist.Tool.toDateFormat
+import io.github.takusan23.countdownwidgetlist.Tool.toTimeFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -40,8 +42,8 @@ class ListViewWidgetService : RemoteViewsService() {
             runBlocking {
                 countDownList.clear()
                 withContext(Dispatchers.IO) {
-                    CountdownDBInit(applicationContext).countdownDB.countdownDBDao().getAll()
-                }.forEach { item ->
+                    CountdownDBInit(applicationContext).countdownDB.countdownDBDao().getFutureEvent()
+                }.sortedBy { countdownDBEntity -> countdownDBEntity.date }.forEach { item ->
                     countDownList.add(item)
                 }
             }
@@ -54,11 +56,11 @@ class ListViewWidgetService : RemoteViewsService() {
         // ListViewの各View
         override fun getViewAt(p0: Int): RemoteViews {
             val dbItem = countDownList[p0]
-            val views = RemoteViews(applicationContext.packageName, R.layout.countdown_list_widget)
+            val views = RemoteViews(applicationContext.packageName, R.layout.widget_list_layout)
             views.apply {
-                setTextViewText(R.id.widget_item_description, dbItem.description)
-                setTextViewText(R.id.widget_item_date, dbItem.date.toTimeFormat()) // toTimeFormatは拡張関数
-                setProgressBar(R.id.widget_item_progress, dbItem.date.toInt(), System.currentTimeMillis().toInt(), false) // 進捗
+                setTextViewText(R.id.widget_list_description, dbItem.description)
+                setTextViewText(R.id.widget_list_date, dbItem.date.toDateFormat()) // toTimeFormatは拡張関数
+                setTextViewText(R.id.widget_list_countdown, "残り ${dbItem.date.calcCountdownDay().toInt()}日")
             }
             return views
         }

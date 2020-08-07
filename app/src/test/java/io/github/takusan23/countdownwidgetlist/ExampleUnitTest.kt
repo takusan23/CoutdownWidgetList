@@ -1,4 +1,4 @@
-package io.github.takusan23.coutdownwidgetlist
+package io.github.takusan23.countdownwidgetlist
 
 import org.junit.Test
 

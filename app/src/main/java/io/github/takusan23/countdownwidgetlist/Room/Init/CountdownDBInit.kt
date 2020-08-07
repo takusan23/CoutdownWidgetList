@@ -1,8 +1,8 @@
-package io.github.takusan23.coutdownwidgetlist.Room.Init
+package io.github.takusan23.countdownwidgetlist.Room.Init
 
 import android.content.Context
 import androidx.room.Room
-import io.github.takusan23.coutdownwidgetlist.Room.DataBase.CountdownDB
+import io.github.takusan23.countdownwidgetlist.Room.DataBase.CountdownDB
 
 /**
  * データベースを準備する関数

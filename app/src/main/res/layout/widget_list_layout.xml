@@ -2,26 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
-        android:id="@+id/widget_item_description"
+        android:id="@+id/widget_list_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="" />
+        android:text=""
+        android:drawableEnd="@drawable/ic_baseline_event_24"
+        android:textStyle="italic" />
 
     <TextView
-        android:id="@+id/widget_item_date"
+        android:id="@+id/widget_list_countdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:text=""
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widget_list_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
         android:text="" />
 
-    <ProgressBar
-        android:id="@+id/widget_item_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" />
 </LinearLayout>
