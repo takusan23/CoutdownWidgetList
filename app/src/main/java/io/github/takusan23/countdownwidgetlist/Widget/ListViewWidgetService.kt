@@ -1,6 +1,8 @@
 package io.github.takusan23.countdownwidgetlist.Widget
 
 import android.content.Intent
+import android.opengl.Visibility
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
@@ -57,10 +59,18 @@ class ListViewWidgetService : RemoteViewsService() {
         override fun getViewAt(p0: Int): RemoteViews {
             val dbItem = countDownList[p0]
             val views = RemoteViews(applicationContext.packageName, R.layout.widget_list_layout)
+            val day = dbItem.date.calcCountdownDay().toInt()
             views.apply {
                 setTextViewText(R.id.widget_list_description, dbItem.description)
                 setTextViewText(R.id.widget_list_date, dbItem.date.toDateFormat()) // toTimeFormatは拡張関数
-                setTextViewText(R.id.widget_list_countdown, "残り ${dbItem.date.calcCountdownDay().toInt()}日")
+                setTextViewText(R.id.widget_list_countdown, "残り ${day}日")
+                // 365超えなければプログレスバー表示など
+                if (365 >= day) {
+                    setProgressBar(R.id.widget_list_progress, 365, 365 - day, false)
+                    setViewVisibility(R.id.widget_list_progress, View.VISIBLE)
+                } else {
+                    setViewVisibility(R.id.widget_list_progress, View.GONE)
+                }
             }
             return views
         }

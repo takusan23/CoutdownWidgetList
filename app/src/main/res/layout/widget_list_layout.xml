@@ -9,8 +9,8 @@
         android:id="@+id/widget_list_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:drawableEnd="@drawable/ic_baseline_event_24"
+        android:text=""
         android:textStyle="italic" />
 
     <TextView
@@ -20,11 +20,18 @@
         android:text=""
         android:textStyle="bold" />
 
+    <ProgressBar
+        android:id="@+id/widget_list_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/widget_list_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="" />
+        android:text=""
+        android:textSize="12sp" />
 
 </LinearLayout>
