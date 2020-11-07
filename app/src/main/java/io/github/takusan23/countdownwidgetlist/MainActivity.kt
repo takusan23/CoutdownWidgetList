@@ -1,16 +1,25 @@
 package io.github.takusan23.countdownwidgetlist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.takusan23.countdownwidgetlist.BottomFragment.AddEventBottomFragment
+import io.github.takusan23.countdownwidgetlist.Room.DataBase.CountdownDB
 import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
 import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
 import io.github.takusan23.countdownwidgetlist.Widget.updateAppWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -41,21 +50,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /**
-     * データベースから取り出す。
-     * 追加/削除時も呼んでね。（Roomをリアルタイム更新する機能とかあるんか？）
-     * */
-    suspend fun loadDB() = withContext(Dispatchers.Main) {
-        dbItemList.clear()
-        withContext(Dispatchers.IO) {
-            CountdownDBInit(this@MainActivity).countdownDB.countdownDBDao().getFutureEvent()
-        }.sortedBy { countdownDBEntity -> countdownDBEntity.date }.forEach { item ->
-            dbItemList.add(item)
-        }
-        countdownListAdapter.notifyDataSetChanged()
-        // Widgetも更新
-        updateAppWidget(this@MainActivity)
+    /** メニューを作成する */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.activity_main_menu, menu)
+        return true
     }
+
+    /** メニュー押したとき */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.activity_main_menu_license -> {
+                startActivity(Intent(this, LicenseActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    /**
+     *ウィジェット更新
+     * */
+    fun loadDB() = updateAppWidget(this@MainActivity)
 
     private fun initRecyclerView() {
         activity_main_recyclerview.apply {
@@ -65,6 +81,20 @@ class MainActivity : AppCompatActivity() {
             // ---ｷﾘﾄﾘｾﾝ---
             val itemDecoration = DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL)
             addItemDecoration(itemDecoration)
+            // データベース監視
+            GlobalScope.launch {
+                val flow = CountdownDBInit.getInstance(this@MainActivity).countdownDBDao().flowGetFutureEvent()
+                flow.collect { value ->
+                    dbItemList.clear()
+                    value.forEach {
+                        dbItemList.add(it)
+                    }
+                    withContext(Dispatchers.Main) {
+                        countdownListAdapter.notifyDataSetChanged()
+                    }
+                }
+
+            }
         }
     }
 }

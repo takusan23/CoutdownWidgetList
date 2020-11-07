@@ -8,7 +8,7 @@ import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
 /**
  * データベース
  * */
-@Database(entities = [CountdownDBEntity::class], version = 1)
+@Database(entities = [CountdownDBEntity::class], version = 2)
 abstract class CountdownDB : RoomDatabase() {
     abstract fun countdownDBDao(): CountdownDBDao
 }

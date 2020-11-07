@@ -44,14 +44,14 @@ class CountdownAdapter(val dbItemList: ArrayList<CountdownDBEntity>) : RecyclerV
             // テキスト入れる
             descriptionTextView.text = item.description
             dateTextView.text = item.date.toTimeFormat()
-            countdownTextView.text = "残り\n${item.date.calcCountdownDay().toInt()}日"
+            countdownTextView.text = "残り\n${item.date.calcCountdownDay(item.isHolidayInclude.toBoolean())}日"
             // 削除ボタン
             deleteButton.setOnClickListener {
                 Snackbar.make(it, "削除していいですか？", Snackbar.LENGTH_SHORT).setAction("削除") {
                     // 削除する
                     GlobalScope.launch(Dispatchers.Main) {
                         withContext(Dispatchers.IO) {
-                            CountdownDBInit(context).countdownDB.countdownDBDao().delete(item)
+                            CountdownDBInit.getInstance(context).countdownDBDao().delete(item)
                         }
                         Toast.makeText(context, "削除しました", Toast.LENGTH_SHORT).show()
                         (context as MainActivity).loadDB()

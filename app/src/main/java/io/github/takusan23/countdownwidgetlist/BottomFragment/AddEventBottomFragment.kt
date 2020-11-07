@@ -1,10 +1,13 @@
 package io.github.takusan23.countdownwidgetlist.BottomFragment
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
+import androidx.room.Room
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import io.github.takusan23.countdownwidgetlist.MainActivity
@@ -35,10 +38,11 @@ class AddEventBottomFragment : BottomSheetDialogFragment() {
         bottom_fragment_add_event_add.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 // DBへ入れる
+                val isHolidayInclude = bottom_fragment_add_event_holiday.isChecked.toString()
                 val description = bottom_fragment_add_event_description.text.toString()
-                val entity = CountdownDBEntity(description = description, date = addDate)
+                val entity = CountdownDBEntity(description = description, date = addDate, isHolidayInclude = isHolidayInclude)
                 withContext(Dispatchers.IO) {
-                    CountdownDBInit(requireContext()).countdownDB.countdownDBDao().insert(entity)
+                    CountdownDBInit.getInstance(requireContext()).countdownDBDao().insert(entity)
                 }
                 // 追加処理
                 Toast.makeText(context, "追加しました", Toast.LENGTH_SHORT).show()

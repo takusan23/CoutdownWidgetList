@@ -5,20 +5,48 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/widget_list_description"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_baseline_event_24"
-        android:text=""
-        android:textStyle="italic" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/widget_list_countdown"
+        <TextView
+            android:id="@+id/widget_list_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/widget_list_holiday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="土日"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/widget_list_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widget_list_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="50%"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/widget_list_progress"

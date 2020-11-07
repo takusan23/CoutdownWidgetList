@@ -24,6 +24,14 @@
         android:layout_margin="5dp"
         android:text="日付設定" />
 
+    <Switch
+        android:id="@+id/bottom_fragment_add_event_holiday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:checked="true"
+        android:text="休日を数える" />
+
     <Button
         android:id="@+id/bottom_fragment_add_event_add"
         android:layout_width="match_parent"

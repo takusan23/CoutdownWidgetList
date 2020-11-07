@@ -27,27 +27,42 @@ fun Long.toDay(): Long {
 }
 
 /**
- * 残り日数（といいながら秒）を計算する拡張関数。
- * [予定日時.calcCountdownSec]みたいな感じで使ってね
+ * 残り日数を計算する拡張関数。
+ * [Int.calcCountdownDay]みたいな感じで使ってね
+ * @param isHolidayInclude 休日を含めるか。普通含めないよな。
  * */
-fun Long.calcCountdownSec(): Long {
-    val localDate = Calendar.getInstance()
-    localDate.apply {
+fun Long.calcCountdownDay(isHolidayInclude: Boolean = false): Int {
+    // 現在の日付
+    val currentCalendar = Calendar.getInstance()
+    currentCalendar.apply {
         set(Calendar.HOUR_OF_DAY, 9)
         set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
     }
     // 引き算して残りのUnixTimeを出す
-    val calc = this - localDate.timeInMillis
-    return calc / 1000
+    val calc = this - currentCalendar.timeInMillis
+    // 日数分リピート
+    var count = 0
+    repeat(calc.milliSecToDay().toInt()) { day ->
+        val week = currentCalendar[Calendar.DAY_OF_WEEK]
+        if (isHolidayInclude) {
+            count++
+        } else {
+            // 休日を含めない場合は、曜日が日曜か土曜以外のときのみ数える
+            if (week != 1 && week != 7) {
+                count++
+            }
+        }
+        // 一日足す
+        currentCalendar.add(Calendar.DAY_OF_MONTH, 1)
+    }
+    return count
 }
 
 /**
- * 残り日数を計算する
- * [予定日時.calcCountdownDay]みたいな感じで使ってね
+ * ミリ秒 -> 日付　変換
  * */
-fun Long.calcCountdownDay(): Long {
-    val sec = this.calcCountdownSec()
-    return sec / 60 / 60 / 24 // 分→時間→日
+fun Long.milliSecToDay(): Long {
+    return this / 1000 / 60 / 60 / 24
 }

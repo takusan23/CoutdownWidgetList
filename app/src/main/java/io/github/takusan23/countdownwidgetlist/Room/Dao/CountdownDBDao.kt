@@ -2,6 +2,7 @@ package io.github.takusan23.countdownwidgetlist.Room.Dao
 
 import androidx.room.*
 import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CountdownDBDao {
@@ -32,5 +33,8 @@ interface CountdownDBDao {
     /** 未来の値のみを取り出す */
     @Query("SELECT * FROM countdown_list WHERE date > :time")
     fun getFutureEvent(time: Long = System.currentTimeMillis()): List<CountdownDBEntity>
+
+    @Query("SELECT * FROM countdown_list")
+    fun flowGetFutureEvent(): Flow<List<CountdownDBEntity>>
 
 }
