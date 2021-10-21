@@ -11,7 +11,7 @@
 
         <EditTextPreference
             android:defaultValue="#FFFFFF"
-            android:key="widget_color_code"
+            android:key="widget_background_color"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="カラーコードで入力してください。初期値は「#FFFFFF」です"
