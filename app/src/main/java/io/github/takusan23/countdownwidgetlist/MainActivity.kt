@@ -1,25 +1,24 @@
 package io.github.takusan23.countdownwidgetlist
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.takusan23.countdownwidgetlist.BottomFragment.AddEventBottomFragment
-import io.github.takusan23.countdownwidgetlist.Room.DataBase.CountdownDB
-import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
-import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
-import io.github.takusan23.countdownwidgetlist.Widget.updateAppWidget
+import io.github.takusan23.countdownwidgetlist.activity.LicenseActivity
+import io.github.takusan23.countdownwidgetlist.activity.PreferenceActivity
+import io.github.takusan23.countdownwidgetlist.bottomfragment.AddEventBottomFragment
+import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
+import io.github.takusan23.countdownwidgetlist.widget.updateAppWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -32,13 +31,14 @@ class MainActivity : AppCompatActivity() {
     private val dbItemList = arrayListOf<CountdownDBEntity>()
     private val countdownListAdapter = CountdownAdapter(dbItemList)
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initRecyclerView()
 
-        GlobalScope.launch {
+        lifecycleScope.launch {
             loadDB()
         }
 
@@ -64,6 +64,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, LicenseActivity::class.java))
                 true
             }
+            R.id.activity_main_menu_setting -> {
+                startActivity(Intent(this, PreferenceActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             val itemDecoration = DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL)
             addItemDecoration(itemDecoration)
             // データベース監視
-            GlobalScope.launch {
+            lifecycleScope.launch {
                 val flow = CountdownDBInit.getInstance(this@MainActivity).countdownDBDao().flowGetFutureEvent()
                 flow.collect { value ->
                     dbItemList.clear()

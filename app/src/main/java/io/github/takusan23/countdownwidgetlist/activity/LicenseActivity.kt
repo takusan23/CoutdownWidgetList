@@ -1,7 +1,8 @@
-package io.github.takusan23.countdownwidgetlist
+package io.github.takusan23.countdownwidgetlist.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import io.github.takusan23.countdownwidgetlist.R
 import kotlinx.android.synthetic.main.activity_license.*
 
 class LicenseActivity : AppCompatActivity() {

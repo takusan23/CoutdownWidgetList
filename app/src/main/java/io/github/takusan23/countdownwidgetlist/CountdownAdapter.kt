@@ -8,10 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
-import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
-import io.github.takusan23.countdownwidgetlist.Tool.calcCountdownDay
-import io.github.takusan23.countdownwidgetlist.Tool.toTimeFormat
+import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
+import io.github.takusan23.countdownwidgetlist.tool.calcCountdownDay
+import io.github.takusan23.countdownwidgetlist.tool.toTimeFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

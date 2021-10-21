@@ -1,10 +1,10 @@
-package io.github.takusan23.countdownwidgetlist.Room.Init
+package io.github.takusan23.countdownwidgetlist.room.init
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import io.github.takusan23.countdownwidgetlist.Room.DataBase.CountdownDB
+import io.github.takusan23.countdownwidgetlist.room.database.CountdownDB
 
 /**
  * データベースを準備する関数。シングルトン（アプリ内でインスタンスを使い回す？）じゃないとFlowの通知が来ない

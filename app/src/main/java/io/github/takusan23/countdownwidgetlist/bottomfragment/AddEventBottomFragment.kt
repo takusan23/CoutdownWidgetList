@@ -1,19 +1,16 @@
-package io.github.takusan23.countdownwidgetlist.BottomFragment
+package io.github.takusan23.countdownwidgetlist.bottomfragment
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
-import androidx.room.Room
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import io.github.takusan23.countdownwidgetlist.MainActivity
 import io.github.takusan23.countdownwidgetlist.R
-import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
-import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
+import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
 import kotlinx.android.synthetic.main.bottom_fragment_add_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

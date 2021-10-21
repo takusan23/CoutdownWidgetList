@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="ウイジェットの見た目">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="is_custom_widget"
+            android:summary="Android 12以降はOFFにすると動的な色を利用します。"
+            android:title="見た目変更機能を使う" />
+
+        <EditTextPreference
+            android:defaultValue="#FFFFFF"
+            android:key="widget_color_code"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="カラーコードで入力してください。初期値は「#FFFFFF」です"
+            android:title="ウイジェットの透明度" />
+
+        <EditTextPreference
+            android:defaultValue="20"
+            android:key="widget_alpha"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="0から100の間でお願いします"
+            android:title="ウイジェットの透明度" />
+
+        <Preference
+            android:key="widget_update"
+            android:title="ウイジェット更新" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

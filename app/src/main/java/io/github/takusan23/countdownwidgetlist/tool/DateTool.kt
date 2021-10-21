@@ -1,4 +1,4 @@
-package io.github.takusan23.countdownwidgetlist.Tool
+package io.github.takusan23.countdownwidgetlist.tool
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,7 +44,7 @@ fun Long.calcCountdownDay(isHolidayInclude: Boolean = false): Int {
     val calc = this - currentCalendar.timeInMillis
     // 日数分リピート
     var count = 0
-    repeat(calc.milliSecToDay().toInt()) { day ->
+    repeat(calc.milliSecToDay().toInt()) {
         val week = currentCalendar[Calendar.DAY_OF_WEEK]
         if (isHolidayInclude) {
             count++

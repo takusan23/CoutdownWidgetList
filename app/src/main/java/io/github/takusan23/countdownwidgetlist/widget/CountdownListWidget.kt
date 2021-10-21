@@ -1,17 +1,28 @@
-package io.github.takusan23.countdownwidgetlist.Widget
+package io.github.takusan23.countdownwidgetlist.widget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.os.Build
+import android.view.View
 import android.widget.RemoteViews
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.*
+import androidx.core.graphics.drawable.toBitmap
+import androidx.preference.PreferenceManager
 import io.github.takusan23.countdownwidgetlist.R
+import java.lang.Exception
 
 /**
  * Implementation of App Widget functionality.
  */
-class CountdownLIstWidget : AppWidgetProvider() {
+class CountdownListWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
@@ -40,8 +51,18 @@ internal fun updateAppWidget(context: Context) {
     val remoteViewsFactoryIntent = Intent(context, ListViewWidgetService::class.java)
     views.setRemoteAdapter(R.id.widget_listview, remoteViewsFactoryIntent)
 
+    val prefSetting = PreferenceManager.getDefaultSharedPreferences(context)
+    if (prefSetting.getBoolean("is_custom_widget", false)) {
+        // 設定値読み出し
+        val colorCode = prefSetting.getString("widget_background_color", "#ffffff")
+        val alpha = (prefSetting.getString("widget_alpha", "20")?.toInt() ?: 20) / 100f
+        val parseColor = Color.parseColor(colorCode)
+        val color = ColorUtils.setAlphaComponent(parseColor, (255 * alpha).toInt())
+        views.setInt(R.id.widget_root, "setBackgroundColor", color)
+    }
+
     // Contextあれば更新できる！
-    val componentName = ComponentName(context, CountdownLIstWidget::class.java)
+    val componentName = ComponentName(context, CountdownListWidget::class.java)
     val manager = AppWidgetManager.getInstance(context)
     val ids = manager.getAppWidgetIds(componentName)
     ids.forEach { id ->

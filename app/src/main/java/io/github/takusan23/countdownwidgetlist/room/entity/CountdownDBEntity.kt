@@ -1,4 +1,4 @@
-package io.github.takusan23.countdownwidgetlist.Room.Entity
+package io.github.takusan23.countdownwidgetlist.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

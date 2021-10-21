@@ -1,7 +1,7 @@
-package io.github.takusan23.countdownwidgetlist.Room.Dao
+package io.github.takusan23.countdownwidgetlist.room.dao
 
 import androidx.room.*
-import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

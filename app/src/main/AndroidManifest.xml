@@ -9,9 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LicenseActivity"></activity>
+        <activity
+            android:name=".activity.PreferenceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LicenseActivity"
+            android:exported="false" />
 
-        <receiver android:name=".Widget.CountdownLIstWidget">
+        <receiver
+            android:name=".widget.CountdownListWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -21,7 +28,9 @@
                 android:resource="@xml/countdown_list_widget_info" />
         </receiver>
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +39,8 @@
         </activity>
 
         <service
-            android:name=".Widget.ListViewWidgetService"
+            android:name=".widget.ListViewWidgetService"
+            android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 

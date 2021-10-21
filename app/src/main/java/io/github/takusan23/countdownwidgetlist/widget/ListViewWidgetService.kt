@@ -1,18 +1,16 @@
-package io.github.takusan23.countdownwidgetlist.Widget
+package io.github.takusan23.countdownwidgetlist.widget
 
 import android.content.Intent
 import android.graphics.Paint
-import android.service.autofill.CharSequenceTransformation
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.core.text.HtmlCompat
 import io.github.takusan23.countdownwidgetlist.R
-import io.github.takusan23.countdownwidgetlist.Room.Entity.CountdownDBEntity
-import io.github.takusan23.countdownwidgetlist.Room.Init.CountdownDBInit
-import io.github.takusan23.countdownwidgetlist.Tool.calcCountdownDay
-import io.github.takusan23.countdownwidgetlist.Tool.toDateFormat
-import kotlinx.android.synthetic.main.widget_list_layout.view.*
+import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
+import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
+import io.github.takusan23.countdownwidgetlist.tool.calcCountdownDay
+import io.github.takusan23.countdownwidgetlist.tool.toDateFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
