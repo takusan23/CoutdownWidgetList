@@ -5,19 +5,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.os.Build
-import android.view.View
 import android.widget.RemoteViews
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.*
-import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.ColorUtils
 import androidx.preference.PreferenceManager
 import io.github.takusan23.countdownwidgetlist.R
-import java.lang.Exception
 
 /**
  * Implementation of App Widget functionality.
@@ -59,6 +51,8 @@ internal fun updateAppWidget(context: Context) {
         val parseColor = Color.parseColor(colorCode)
         val color = ColorUtils.setAlphaComponent(parseColor, (255 * alpha).toInt())
         views.setInt(R.id.widget_root, "setBackgroundColor", color)
+    } else {
+        views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_background)
     }
 
     // Contextあれば更新できる！
