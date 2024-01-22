@@ -6,31 +6,30 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.takusan23.countdownwidgetlist.room.database.CountdownDB
 
-/**
- * データベースを準備する関数。シングルトン（アプリ内でインスタンスを使い回す？）じゃないとFlowの通知が来ない
- * @param context こんてきすと
- * */
+object CountdownDBInit {
 
-private lateinit var countdownDB: CountdownDB
+    private var countdownDB: CountdownDB? = null
 
-class CountdownDBInit {
-
-    companion object {
-        fun getInstance(context: Context): CountdownDB {
-            if (!::countdownDB.isInitialized) {
-                // 初期化してない
-                countdownDB = Room.databaseBuilder(context, CountdownDB::class.java, "CountdownDB.db")
-                    .addMigrations(object : Migration(1, 2) {
-                        // 土日をカウントするかどうかのカラムを追加するためマイグレーション書く
-                        override fun migrate(database: SupportSQLiteDatabase) {
-                            database.execSQL("""
+    /**
+     * データベースを準備する関数。シングルトン（アプリ内でインスタンスを使い回す？）じゃないとFlowの通知が来ない
+     * @param context こんてきすと
+     */
+    fun getInstance(context: Context): CountdownDB {
+        if (countdownDB == null) {
+            // 初期化してない
+            countdownDB = Room.databaseBuilder(context, CountdownDB::class.java, "CountdownDB.db")
+                .addMigrations(object : Migration(1, 2) {
+                    // 土日をカウントするかどうかのカラムを追加するためマイグレーション書く
+                    override fun migrate(database: SupportSQLiteDatabase) {
+                        database.execSQL(
+                            """
                                 ALTER TABLE countdown_list ADD COLUMN holiday_include TEXT
-                            """.trimIndent())
-                        }
-                    })
-                    .build()
-            }
-            return countdownDB
+                            """.trimIndent()
+                        )
+                    }
+                })
+                .build()
         }
+        return countdownDB!!
     }
 }

@@ -1,27 +1,23 @@
 package io.github.takusan23.countdownwidgetlist
 
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.takusan23.countdownwidgetlist.activity.LicenseActivity
 import io.github.takusan23.countdownwidgetlist.activity.PreferenceActivity
 import io.github.takusan23.countdownwidgetlist.bottomfragment.AddEventBottomFragment
+import io.github.takusan23.countdownwidgetlist.databinding.ActivityMainBinding
 import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
 import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
 import io.github.takusan23.countdownwidgetlist.widget.updateAppWidget
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,10 +27,12 @@ class MainActivity : AppCompatActivity() {
     private val dbItemList = arrayListOf<CountdownDBEntity>()
     private val countdownListAdapter = CountdownAdapter(dbItemList)
 
-    @RequiresApi(Build.VERSION_CODES.P)
+    /** kotlin-android-extensions から ViewBinding に */
+    private val viewBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(viewBinding.root)
 
         initRecyclerView()
 
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             loadDB()
         }
 
-        activity_main_fab.setOnClickListener {
+        viewBinding.activityMainFab.setOnClickListener {
             // 予定追加BottomFragment
             val addEventBottomFragment = AddEventBottomFragment()
             addEventBottomFragment.show(supportFragmentManager, "show")
@@ -64,10 +62,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, LicenseActivity::class.java))
                 true
             }
+
             R.id.activity_main_menu_setting -> {
                 startActivity(Intent(this, PreferenceActivity::class.java))
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     fun loadDB() = updateAppWidget(this@MainActivity)
 
     private fun initRecyclerView() {
-        activity_main_recyclerview.apply {
+        viewBinding.activityMainRecyclerview.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = countdownListAdapter

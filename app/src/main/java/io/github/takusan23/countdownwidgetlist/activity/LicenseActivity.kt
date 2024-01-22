@@ -1,14 +1,16 @@
 package io.github.takusan23.countdownwidgetlist.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import io.github.takusan23.countdownwidgetlist.R
-import kotlinx.android.synthetic.main.activity_license.*
+import androidx.appcompat.app.AppCompatActivity
+import io.github.takusan23.countdownwidgetlist.databinding.ActivityLicenseBinding
 
 class LicenseActivity : AppCompatActivity() {
+
+    private val viewBinding by lazy { ActivityLicenseBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_license)
+        setContentView(viewBinding.root)
 
         val materialLicence = """----- material-components/material-components-android -----
 
@@ -235,6 +237,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
         """.trimIndent()
 
-        activity_license_textview.text = "$materialLicence$coroutine"
+        viewBinding.activityLicenseTextview.text = "$materialLicence$coroutine"
     }
 }

@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import io.github.takusan23.countdownwidgetlist.MainActivity
-import io.github.takusan23.countdownwidgetlist.R
+import io.github.takusan23.countdownwidgetlist.databinding.BottomFragmentAddEventBinding
 import io.github.takusan23.countdownwidgetlist.room.entity.CountdownDBEntity
 import io.github.takusan23.countdownwidgetlist.room.init.CountdownDBInit
-import kotlinx.android.synthetic.main.bottom_fragment_add_event.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,18 +24,23 @@ class AddEventBottomFragment : BottomSheetDialogFragment() {
     /** 追加する日時 */
     var addDate = System.currentTimeMillis()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.bottom_fragment_add_event, container, false)
+    /** kotlin-android-extensions から ViewBinding に */
+    private var _binding: BottomFragmentAddEventBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = BottomFragmentAddEventBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bottom_fragment_add_event_add.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+        binding.bottomFragmentAddEventAdd.setOnClickListener {
+            lifecycleScope.launch {
                 // DBへ入れる
-                val isHolidayInclude = bottom_fragment_add_event_holiday.isChecked.toString()
-                val description = bottom_fragment_add_event_description.text.toString()
+                val isHolidayInclude = binding.bottomFragmentAddEventHoliday.isChecked.toString()
+                val description = binding.bottomFragmentAddEventDescription.text.toString()
                 val entity = CountdownDBEntity(description = description, date = addDate, isHolidayInclude = isHolidayInclude)
                 withContext(Dispatchers.IO) {
                     CountdownDBInit.getInstance(requireContext()).countdownDBDao().insert(entity)
@@ -49,7 +53,7 @@ class AddEventBottomFragment : BottomSheetDialogFragment() {
         }
 
         // 日付指定の日付ピッカー出す
-        bottom_fragment_add_event_calendar.setOnClickListener {
+        binding.bottomFragmentAddEventCalendar.setOnClickListener {
             val dialog = MaterialDatePicker.Builder.datePicker().setTitleText("日付指定").build()
             // 決定ボタン
             dialog.addOnPositiveButtonClickListener {
